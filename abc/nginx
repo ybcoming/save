@@ -1,3 +1,23 @@
+虚拟主机标准配置(简化) - A Default Catchall Virtual Host
+ 
+
+http {
+    server {
+        listen          80 default;
+        server_name     _ *;
+        access_log      logs/default.access.log main;
+        location / {
+            index index.html;
+            root  /var/www/default/htdocs;
+        }
+    }
+}
+
+
+
+
+
+
 server {
 listen 80;
 server_name *.ahunsha.com;
