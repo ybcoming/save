@@ -1,0 +1,9 @@
+一旦定义好了要暴露的资源，你可以定义资源上允许的操作，以及这些操作和你的API的对应关系：
+
+GET /tickets # 获取ticket列表
+GET /tickets/12 # 查看某个具体的ticket
+POST /tickets # 新建一个ticket
+PUT /tickets/12 # 更新ticket 12.
+DELETE /tickets/12 #删除ticekt 12
+可以看出使用REST的好处在于可以充分利用http的强大实现对资源的CURD功能。
+而这里你只需要一个endpoint：/tickets,再没有其他什么命名规则和url规则了，cool！
