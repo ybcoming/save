@@ -14,6 +14,56 @@ http {
 }
 
 
+-------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+server_name www.002pc.com *.002pc.com;
+server_name_in_redirect off;
+#设置默认root
+set $rootdir /usr/local/Nginx/html/002pc/;
+#匹配三级域名
+if ($host ~* ^([^.]+).([^.]+).([^.]+).([^.]+)$) {
+    set $rootdir /usr/local/nginx/html/w3cgroup/$2/$1;
+    #三级域名中有访问指定的目录则重定向到相应的二级域名下
+    rewrite "^.+upload/?(.*)$" http://upload.002pc.com/$1 permanent;
+    rewrite "^.+ijc/?(.*)$" http://ijc.002pc.com/$1 permanent;
+    break;
+}
+#匹配二级域名
+if ($host ~* ^([^.]+).([^.]+).([^.]+)$) {
+set $rs1 $1;
+}
+#设置www时root
+if ($rs1 ~* ^www$) {
+    set $rootdir /usr/local/nginx/html/platform_ig/;
+    #二级域名中有访问指定的目录则重定向到相应的二级域名下,注意，这里要使用last
+    rewrite "^.+upload/?(.*)$" upload/$1 last;
+    rewrite "^.+ijc/?(.*)$" ijc/$1 last;
+    break;
+}
+#设置非www二级域名时root
+if ($rs1 !~* ^www$) {
+    set $rootdir /usr/local/nginx/html/w3cgroup/$rs1;
+    #二级域名中有访问指定的目录则重定向到相应的二级域名下
+    rewrite "^.+upload/?(.*)$" http://upload.002pc.com/$1 permanent;
+    rewrite "^.+ijc/?(.*)$" http://ijc.002pc.com/$1 permanent;
+    break;
+}
+#应用root
+root $rootdir;
+index index.PHP index.html;
+error_page 404 http://$host/;
+
+
+
+
+-------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+
 
 
 
