@@ -1,0 +1,5 @@
+if ($host ~* ^([^\.]+)\.(com|cn|org|net|com\.cn)$) {
+	    set $org $1.$2;
+		rewrite   ^/(.*)$      http://www.$org/$1    permanent;
+		}
+	
