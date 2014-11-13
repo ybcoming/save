@@ -13,6 +13,30 @@
  $base_path='';
  $base_root='';
  
+ 
+ 	$dir			= explode(':', rtrim($_SERVER['HTTP_HOST'],'.'));
+	$dir			= explode('.',$dir[0],2);
+
+	if($dir[1] == $base_site && isset($sites[$dir[0]]) && $sites[$dir[0]] === 1){	
+		$third		= FALSE;
+		$setfile 	= DRUPAL_ROOT.'/../sites/i/settings.php';
+		$base_url	= $dir[1];
+		$_GET['g']  = $dir[0];
+	}elseif($dir[1] == $base_site && empty($sites[$dir[0]])){
+		$third		= TRUE;	
+		$setfile 	= DRUPAL_ROOT.'/../sites/c/'.$dir[0].'/settings.php';
+		$base_url	= $dir[0].'.'.$dir[1];
+		$_GET['g']  = 'www';
+	}elseif($dir[1] != $base_site )	{
+		$third		= TRUE;	
+		$tmp		= explode('.',$dir[1]，2);		
+		$setfile 	= DRUPAL_ROOT.'/../sites/c/'.$tmp[0].'/settings.php';
+		unset($tmp);
+		$base_url	= $dir[1];	
+		$_GET['g']  = $dir[0];		
+	}
+
+ 
 /*
 ********* common function
 */
