@@ -360,10 +360,73 @@ drupal_settings_initialize();
 
 
 
+//////////////////////////////////////////////
 
 
 
+/*
+******** common variable	
+*/
+	$reverse_proxy_addresses=array();
 
+  	//ini_set('session.cookie_secure', TRUE);
+ 	ini_set('session.use_cookies', '1');
+  	ini_set('session.use_only_cookies', '1');
+  	ini_set('session.use_trans_sid', '0');
+  	// Don't send HTTP headers using PHP's session handler.
+  	// An empty string is used here to disable the cache limiter.
+  	ini_set('session.cache_limiter', '');
+  	ini_set('session.cookie_httponly', '1');
+	ini_set('session.cookie_domain', '.'.$base_url);
+	
+	/*
+		$controllers=array(
+		'news'=>1,
+		'product'=>1,
+		'picture'=>1
+		);
+		.........
+		.........
+		.........
+	*/
+	
+	$is_https = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on';
+	$session_name = $is_https ? 's_session_name' : 'session_name';
+	
+	if( empty($_COOKIE[$session_name])){
+			if( $controller != 'login'){
+				header('https://secure.'.$base_site.'/login');
+				exit;
+			}else[
+				$setfile 	= DRUPAL_ROOT.'/../sites/default/settings.php';
+			}
+		}elseif{
+			session_name($session_name);
+			session_start();
+			$setfile 	= DRUPAL_ROOT.'/../sites/'.$_SESSION['site'].'/settings.php';
+		}
+
+   if (!empty($setfile) && file_exists($setfile)) {
+       require $setfile;
+    }else{
+  		request_not_found();
+    }  
+	
+
+	$pathinfo	= rtrim($_SERVER['PATH_INFO'],'/ '); 
+	if(empty($pathinfo)) {
+		$controller =	$action = 'index';
+	}else{
+		$p 	= implode('/',$pathinfo);			
+		isset($controllers[$p[0]]) ? $controller=array_shift($p) : request_not_found();
+		$actions	= $$controller && isset($actions[$p[0]]) ? $action=array_shift($p) : $action='index';
+		$params		= $p;
+	}
+
+	
+	
+	
+	
 
 
 
