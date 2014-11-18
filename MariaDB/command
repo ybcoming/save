@@ -1,0 +1,18 @@
+1. 查看参数
+
+shell> mysql --print-defaults
+mysql would have been started with the following arguments: 
+--port=3306 --socket=/var/run/mysqld/mysqld.sock
+
+2.查看所有参数
+
+shell> mysqld --no-defaults --help --verbose
+
+3.重启
+
+On Windows, we perform the following command: （mysql as service）
+sc stop mysql
+sc start mysql
+
+On Linux systems, we generally do the following (and we may need to preface it with sudo):
+/etc/init.d/mysql reload
