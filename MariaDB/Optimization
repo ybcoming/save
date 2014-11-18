@@ -1,0 +1,38 @@
+1.操作系统优化
+
+    a. turn swap off
+    
+      The setting is from 0 to 100, with lower values meaning a lower likelihood of swapping. The default is usually 60 - 
+      you can check this by running:
+      sysctl vm.swappiness
+      
+      The default setting encourages the server to use swap. Since there probably won't be much else on the database server
+      besides MariaDB processes to put into swap, you'll probably want to reduce this to zero to avoid swapping as much as 
+      possible. You can change the default by adding a line to the sysctl.conf file (usually found in /etc/sysctl.conf).
+
+      To set the swappiness to zero, add the line:
+      vm.swappiness = 0
+      
+      This normally takes effect after a reboot, but you can change the value without rebooting as follows:
+      sysctl -w vm.swappiness=0
+      
+    b. filesystem
+    
+       the best Linux filesystems are generally regarded as ext4, XFS and Btrfs.
+       
+       Disabling access time
+        It's unlikely you'll need to record file access time on a database server, 
+        and mounting your filesystem with this disabled can give an easy improvement in performance. 
+        To do so, use the noatime option.
+
+        If you want to keep access time for log files or other system files, these can be stored on a separate drive.
+        
+2. 硬件
+    
+      memory: highest RAM size per slot is preferable
+      cpu:    Besides processor speed, the processor's bus speed and cache size are also important factors to consider.
+      disk:   choose disks with as low a seek time as possible. add dedicated disks for temporary files and transaction logs.
+      fast ethernet : ...
+      
+3. 系统变量
+    
