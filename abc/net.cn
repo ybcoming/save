@@ -1,0 +1,48 @@
+POST方式：
+
+URL:http://pandavip.www.net.cn/check/check_ac1.cgi 
+查询方式：POST 
+提交参数：domain=awang.cn 
+返回结构：("com|awang.cn|211|Domain name is not available"); 
+域名后缀|查询的域名|注册状态代码|说明 
+212 (查询失败)、211 （不可注册）、210 （可以注册）
+
+GET方式
+
+http://panda.www.net.cn/cgi-bin/check.cgi?area_domain=awang.cn 
+返回的是XML格式，也好处理，但速度好像比POST慢呀！ 
+
+
+
+
+
+
+
+
+
+
+  
+<!--?xml version="1.0" encoding="gb2312"?--> 
+<property> 
+<returncode>200</returncode> 
+<key>awang.cn</key> 
+<original>211 : Domain name is not available</original> 
+</property> 
+
+代码如下：
+
+$preg_str=@preg_replace('/[^A-Z0-9-.]/i','',$_GET['domain']);//去掉包含“.”的函数
+$domainUrl='http://panda.www.net.cn/cgi-bin/check.cgi?area_domain='.$preg_str;
+$contents=file_get_contents($domainUrl);
+$xml = simplexml_load_string($contents);
+if (!empty($xml)) {
+switch($xml->original)
+{
+case '210 : Domain name is available':$result = '该域名可以注册';break;
+case '211 : Domain name is not available':$result = '该域名已经被注册';break;
+case '212 : Domain name is invalid':$result = '域名参数错误，请输入的域名格式';break;
+case '214 : Unknown error':$result='查询异常，请稍后再试';break;
+}
+}
+echo $result;
+
