@@ -46,3 +46,30 @@ case '214 : Unknown error':$result='查询异常，请稍后再试';break;
 }
 echo $result;
 
+
+
+
+
+
+
+注册域名：
+
+    查询：
+    加入购物车：http://www.net.cn/core/domainbuy/shopcartadd?domainString=baidu.gov.cn&periodNum=12
+    
+    http://www.net.cn/core/shoppingcart/getall
+    FORM DATA
+    isPersonalUser:false
+    filterNotAllowedBuy:false
+    
+    http://www.net.cn/core/shoppingcart/recommend
+    FORM DATA
+    isPersonalUser:false
+    
+    
+    设置COOKIE  isPersonalUser=true
+    
+    http://www.net.cn/core/order/confirm
+    
+     
+
